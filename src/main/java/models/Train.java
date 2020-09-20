@@ -47,7 +47,6 @@ public class Train implements Iterable<Wagon> {
             return true;
         } else {
             return false;
-
         }
     }
 
@@ -170,8 +169,15 @@ public class Train implements Iterable<Wagon> {
      */
     public boolean canAttach(Wagon sequence) {
         // TODO
-
-        return false;
+        if (this.getNumberOfWagons() + 1 > engine.getMaxWagons()) {
+            return false;
+        } else if (this.isPassengerTrain() && sequence instanceof FreightWagon) {
+            return false;
+        } else if (this.isFreightTrain() && sequence instanceof PassengerWagon) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -184,11 +190,11 @@ public class Train implements Iterable<Wagon> {
      */
     public boolean attachToRear(Wagon sequence) {
         // TODO
-        if (this.getNumberOfWagons() + 1 > engine.getMaxWagons()) {
-            return false;
-        } else {
+        if (canAttach(sequence)) {
             sequence.attachTo(getLastWagonAttached());
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -201,9 +207,12 @@ public class Train implements Iterable<Wagon> {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtFront(Wagon sequence) {
-        // TODO
-
-        return false;
+        // TODO **********
+        if (canAttach(sequence)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
