@@ -218,6 +218,7 @@ public class Train implements Iterable<Wagon> {
         // TODO
         if (firstWagon == null) {
             firstWagon = sequence;
+            return true;
         }
 
         if (canAttach(sequence)) {
@@ -226,6 +227,7 @@ public class Train implements Iterable<Wagon> {
         } else {
             return false;
         }
+
     }
 
     /**
@@ -260,6 +262,8 @@ public class Train implements Iterable<Wagon> {
         // TODO
         Wagon wagon = findWagonAtPosition(position);
         if (canAttach(sequence) || wagon == null) {
+            wagon = findWagonAtPosition(position - 1);
+            sequence.attachTo(wagon);
             return true;
         }
         return false;
@@ -278,8 +282,15 @@ public class Train implements Iterable<Wagon> {
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
         // TODO
+        Wagon wagon = findWagonById(wagonId);
+        if (toTrain.canAttach(wagon)) {
+            wagon.removeFromSequence();
+            toTrain.attachToRear(wagon);
+            return true;
+        } else {
+            return false;
+        }
 
-        return false;
     }
 
     /**
@@ -295,8 +306,18 @@ public class Train implements Iterable<Wagon> {
      */
     public boolean splitAtPosition(int position, Train toTrain) {
         // TODO
-
-        return false;
+        Wagon wagon = findWagonAtPosition(position);
+        if (wagon != null) {
+            wagon.detachFromPrevious();
+            if (toTrain.canAttach(wagon)) {
+                toTrain.attachToRear(wagon);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -308,6 +329,15 @@ public class Train implements Iterable<Wagon> {
      */
     public void reverse() {
         // TODO
+//        boolean bootyOpReverse = false;
+//        Wagon lastWagon = this.getLastWagonAttached();
+//        Wagon wagon = this.getFirstWagon();
+//
+//        while (!bootyOpReverse) {
+//            if (lastWagon == firstWagon) {
+//                bootyOpReverse = true;
+//            }
+//        }
 
     }
 
