@@ -1,6 +1,6 @@
 package models;
 
-public class Wagon {
+abstract public class Wagon {
     protected int id;                 // some unique ID of a Wagon
     private Wagon nextWagon;        // another wagon that is appended at the tail of this wagon
     // a.k.a. the successor of this wagon in a sequence
@@ -86,7 +86,7 @@ public class Wagon {
         if (hasNextWagon()) {
             return count(this, 0);
         } else {
-            return 0;
+            return 1;
         }
     }
 
@@ -94,7 +94,7 @@ public class Wagon {
         if (current.hasNextWagon()) {
             return count(current.getNextWagon(), count + 1);
         } else {
-            return count;
+            return count + 1;
         }
     }
 
@@ -168,6 +168,8 @@ public class Wagon {
         if (hasNextWagon() && hasPreviousWagon()) {
             this.previousWagon.nextWagon = this.nextWagon;
             this.nextWagon.previousWagon = this.previousWagon;
+            this.nextWagon = null;
+            this.previousWagon = null;
         } else if (!hasPreviousWagon() && hasNextWagon()) {
             detachTail();
         } else if (!hasNextWagon() && hasPreviousWagon()) {
@@ -192,4 +194,9 @@ public class Wagon {
     }
 
     // TODO
+
+    @Override
+    public String toString() {
+        return "[Wagon-" + id + "]";
+    }
 }

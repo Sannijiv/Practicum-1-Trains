@@ -105,10 +105,14 @@ public class Train implements Iterable<Wagon> {
      */
     public Wagon getLastWagonAttached() {
         // TODO
-        if (firstWagon.hasNextWagon()) {
-            return firstWagon.getLastWagonAttached();
+        if (firstWagon != null) {
+            if (firstWagon.hasNextWagon()) {
+                return firstWagon.getLastWagonAttached();
+            } else {
+                return firstWagon;
+            }
         } else {
-            return firstWagon;
+            return null;
         }
 
     }
@@ -119,12 +123,21 @@ public class Train implements Iterable<Wagon> {
      */
     public int getTotalNumberOfSeats() {
         // TODO ******************
-        if (isFreightTrain()) {
+        Iterator<Wagon> iterator = iterator();
+        int numberOfSeats = 0;
+        PassengerWagon wagon = null;
 
+        if (isFreightTrain()) {
             return 0;
-        } else {
-            return this.getNumberOfWagons();
+        } else if (firstWagon != null) {
+            while (iterator.hasNext()) {
+                wagon = (PassengerWagon) iterator.next();
+                numberOfSeats += wagon.getNumberOfSeats();
+            }
+            wagon = (PassengerWagon) iterator.next();
+            numberOfSeats += wagon.getNumberOfSeats();
         }
+        return numberOfSeats;
     }
 
     /**
@@ -150,15 +163,16 @@ public class Train implements Iterable<Wagon> {
         // TODO
         Iterator<Wagon> iterator = iterator();
         Wagon wagon = null;
-        int count = 0;
+        int count = 1;
 
         while (iterator.hasNext()) {
-            count++;
             wagon = iterator.next();
             System.out.println(wagon);
             if (count == position) {
                 break;
             }
+            count++;
+
         }
         return wagon;
     }
