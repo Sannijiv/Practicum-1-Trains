@@ -81,7 +81,7 @@ public class Train implements Iterable<Wagon> {
      * @return the last wagon attached to the train
      */
     public Wagon getLastWagonAttached() {
-        if (firstWagon != null) {
+        if (hasWagons()) {
             if (firstWagon.hasNextWagon()) {
                 return firstWagon.getLastWagonAttached();
             } else {
@@ -188,9 +188,7 @@ public class Train implements Iterable<Wagon> {
             return false;
         }
         //Can't attach if the type of wagon isn't in line with the train type
-        else if (this.isPassengerTrain() && sequence instanceof FreightWagon) {
-            return false;
-        } else if (this.isFreightTrain() && sequence instanceof PassengerWagon) {
+        else if (this.isPassengerTrain() && sequence instanceof FreightWagon || this.isFreightTrain() && sequence instanceof PassengerWagon) {
             return false;
         }
         //Return true if all the above checks are passed
@@ -209,7 +207,7 @@ public class Train implements Iterable<Wagon> {
      */
     public boolean attachToRear(Wagon sequence) {
         //Check if the firstWagon is null and make the sequence the firstWagon if so
-        if (firstWagon == null) {
+        if (!hasWagons()) {
             setFirstWagon(sequence);
             return true;
         }
@@ -219,15 +217,12 @@ public class Train implements Iterable<Wagon> {
             //Extra check to see if the wagon that is going to get attached has a previousWagon and uses reAttachTo() if so else attachTo()
             if (sequence.hasPreviousWagon()) {
                 sequence.reAttachTo(getLastWagonAttached());
-                return true;
             } else {
                 sequence.attachTo(getLastWagonAttached());
-                return true;
             }
+            return true;
         }
-
         return false;
-
     }
 
     /**
@@ -239,7 +234,7 @@ public class Train implements Iterable<Wagon> {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtFront(Wagon sequence) {
-        if (firstWagon == null) {
+        if (!hasWagons()) {
             setFirstWagon(sequence);
             return true;
         }
@@ -366,7 +361,7 @@ public class Train implements Iterable<Wagon> {
     public Iterator<Wagon> iterator() {
         return new WagonIterator();
     }
-    
+
     public class WagonIterator implements Iterator<Wagon> {
 
         private Wagon currentWagon = Train.this.firstWagon;
