@@ -349,16 +349,6 @@ public class Train implements Iterable<Wagon> {
      */
     public void reverse() {
         // TODO
-//        boolean bootyOpReverse = false;
-//        Wagon lastWagon = this.getLastWagonAttached();
-//        Wagon wagon = this.getFirstWagon();
-//
-//        while (!bootyOpReverse) {
-//            if (lastWagon == firstWagon) {
-//                bootyOpReverse = true;
-//            }
-//        }
-
     }
 
     @Override

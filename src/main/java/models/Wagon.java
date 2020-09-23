@@ -189,8 +189,34 @@ abstract public class Wagon {
      */
     public Wagon reverseSequence() {
         // TODO provide a recursive implementation
+        if(!hasNextWagon()) {
+            return null;
+        }
 
-        return null;
+        Wagon newHeadWagon = reverse(this);
+
+        return newHeadWagon;
+    }
+
+    /**
+     * recursively reverses the sequence of a given wagon until the final wagon in the sequence.
+     * @param currentWagon
+     * @return the current wagon if there are no more previous wagons (since it's the first in the list).
+     */
+    public Wagon reverse(Wagon currentWagon){
+        Wagon storedNextWagon = currentWagon.nextWagon;
+        currentWagon.nextWagon = currentWagon.previousWagon;
+        currentWagon.previousWagon = storedNextWagon;
+
+        // If there are no more previous wagons
+        // the list has been reversed.
+        if(currentWagon.previousWagon == null){
+            return currentWagon;
+        }
+
+        // Calls itself again with the previousWagon,
+        // which is actually the stored next wagon.
+        return reverse(currentWagon.previousWagon);
     }
 
     // TODO
