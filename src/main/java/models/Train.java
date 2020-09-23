@@ -343,7 +343,6 @@ public class Train implements Iterable<Wagon> {
      */
     public void reverse() {
         // TODO
-        firstWagon.reverseSequence();
     }
 
     @Override

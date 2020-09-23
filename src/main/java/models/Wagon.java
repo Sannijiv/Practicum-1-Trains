@@ -193,30 +193,22 @@ abstract public class Wagon {
             return null;
         }
 
-        Wagon previousWagon;
         Wagon newHeadWagon = reverse(this);
 
-        if(hasPreviousWagon()){
-            previousWagon = this.previousWagon;
-        }
         return newHeadWagon;
     }
 
     /**
      * recursively reverses the sequence of a given wagon until the final wagon in the sequence.
      * @param currentWagon
-     * @return the current wagon if there are no more previous wagons.
+     * @return the current wagon if there are no more previous wagons (since it's the first in the list).
      */
     public Wagon reverse(Wagon currentWagon){
-        if(currentWagon == null){
-            return null;
-        }
-
         Wagon storedNextWagon = currentWagon.nextWagon;
         currentWagon.nextWagon = currentWagon.previousWagon;
         currentWagon.previousWagon = storedNextWagon;
 
-        // If value previousWagon is null,
+        // If there are no more previous wagons
         // the list has been reversed.
         if(currentWagon.previousWagon == null){
             return currentWagon;
