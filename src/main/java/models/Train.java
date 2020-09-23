@@ -307,11 +307,15 @@ public class Train implements Iterable<Wagon> {
      * @return whether the move could be completed successfully
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
-        // TODO
+        //Find the wagon that needs to be moved
         Wagon wagon = findWagonById(wagonId);
+
+        //If the wagon doesn't exist we return false since there is nothing to be moved
         if (wagon == null) {
             return false;
         }
+
+        //Check to see if the wagon can attach to the desired train.
         if (toTrain.canAttach(wagon)) {
             wagon.removeFromSequence();
             toTrain.attachToRear(wagon);
@@ -334,16 +338,14 @@ public class Train implements Iterable<Wagon> {
      * @return whether the move could be completed successfully
      */
     public boolean splitAtPosition(int position, Train toTrain) {
-        // TODO
+        //Find the wagon where we want to split from
         Wagon wagon = findWagonAtPosition(position);
-        if (wagon != null) {
+
+        //Detaches the desired wagon from its previousWagons and attaches it to the trains rear if the checks are passed and wagon != null;
+        if (wagon != null && toTrain.canAttach(wagon)) {
             wagon.detachFromPrevious();
-            if (toTrain.canAttach(wagon)) {
-                toTrain.attachToRear(wagon);
-                return true;
-            } else {
-                return false;
-            }
+            toTrain.attachToRear(wagon);
+            return true;
         } else {
             return false;
         }
@@ -364,8 +366,7 @@ public class Train implements Iterable<Wagon> {
     public Iterator<Wagon> iterator() {
         return new WagonIterator();
     }
-
-    // TODO
+    
     public class WagonIterator implements Iterator<Wagon> {
 
         private Wagon currentWagon = Train.this.firstWagon;
@@ -386,6 +387,7 @@ public class Train implements Iterable<Wagon> {
     @Override
     public String toString() {
         String wagons = "";
+        //Adds all the wagon toString to each other
         for (Wagon w : this) {
             wagons += w.toString();
         }
