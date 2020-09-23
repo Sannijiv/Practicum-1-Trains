@@ -34,7 +34,6 @@ abstract public class Wagon {
      * @return whether this wagon has a wagon appended at the tail
      */
     public boolean hasNextWagon() {
-        // TODO
         if (nextWagon != null) {
             return true;
         } else {
@@ -47,7 +46,6 @@ abstract public class Wagon {
      * @return whether this wagon has a wagon prepended at the front
      */
     public boolean hasPreviousWagon() {
-        // TODO
         if (previousWagon != null) {
             return true;
         } else {
@@ -73,7 +71,6 @@ abstract public class Wagon {
                 lastWagonFound = true;
             }
         }
-
         return current;
     }
 
